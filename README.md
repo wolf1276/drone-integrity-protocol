@@ -18,7 +18,6 @@
 - [Technology Stack](#-technology-stack)
 - [Folder Structure](#-folder-structure)
 - [How Integrity Verification Works](#-how-integrity-verification-works)
-- [Belt System Roadmap](#-belt-system-roadmap)
 - [Docker Setup Instructions](#-docker-setup-instructions)
 - [Environment Variables Setup](#-environment-variables-setup)
 - [Development Setup](#-development-setup)
@@ -128,19 +127,6 @@ drone-integrity-protocol/
 2. The mission payload is hashed.
 3. The mission hash is recorded on the Stellar blockchain.
 4. The drone receives the mission, calculates the hash, and verifies it against the blockchain record before executing movement.
-
----
-
-## 🥋 Belt System Roadmap
-
-This project follows a progressive development roadmap:
-
-- **⚪ White Belt (Foundation):** Basic MERN architecture, Docker setup, dummy hashing.
-- **🟡 Yellow Belt (Integration):** Connect backend to Stellar Testnet, register static hashes.
-- **🟢 Green Belt (Dynamic Auth):** Real-time firmware verification flows, basic React dashboard.
-- **🔵 Blue Belt (Mission Control):** Implement mission payload hashing and verification.
-- **🟤 Brown Belt (Security Hardening):** Implement JWT auth, secure key management, comprehensive logging.
-- **⚫ Black Belt (Production Ready):** Soroban smart contracts, multisig authorization, zero-knowledge proofs (ZKPs), full physical drone integration.
 
 ---
 
