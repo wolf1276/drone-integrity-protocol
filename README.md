@@ -1,8 +1,12 @@
 # 🚁 Drone Integrity & Mission Authentication Protocol
 
-> **A decentralized, blockchain-backed integrity verification layer for autonomous drone fleets.**
+> **Decentralized Integrity Verification Layer for Unmanned Aerial Vehicles (UAVs)**
 
-The **Drone Integrity & Mission Authentication Protocol** is a full-stack, decentralized MERN application designed to ensure that autonomous drone fleets remain uncompromised. By anchoring firmware hashes and mission commands to the **Stellar Blockchain**, this protocol creates an immutable audit trail that prevents tampering, unauthorized firmware modifications, and rogue mission injections.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
+[![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)](https://reactjs.org/)
+[![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Stellar](https://img.shields.io/badge/Stellar-000000?style=flat&logo=Stellar&logoColor=white)](https://www.stellar.org/)
 
 ---
 
@@ -10,14 +14,14 @@ The **Drone Integrity & Mission Authentication Protocol** is a full-stack, decen
 
 - [Project Overview](#-project-overview)
 - [Why This Project Matters](#-why-this-project-matters)
-- [System Architecture Overview](#%EF%B8%8F-system-architecture-overview)
+- [System Architecture Overview](#-system-architecture-overview)
 - [Technology Stack](#-technology-stack)
 - [Folder Structure](#-folder-structure)
 - [How Integrity Verification Works](#-how-integrity-verification-works)
 - [Belt System Roadmap](#-belt-system-roadmap)
 - [Docker Setup Instructions](#-docker-setup-instructions)
 - [Environment Variables Setup](#-environment-variables-setup)
-- [Development Setup (Without Docker)](#-development-setup-without-docker)
+- [Development Setup](#-development-setup)
 - [Future Roadmap](#-future-roadmap)
 - [Security Considerations](#-security-considerations)
 - [Contribution Guidelines](#-contribution-guidelines)
@@ -26,48 +30,49 @@ The **Drone Integrity & Mission Authentication Protocol** is a full-stack, decen
 
 ---
 
-## 🌍 Project Overview
+## 🦅 Project Overview
 
-As autonomous drones become increasingly critical in sectors such as logistics, agriculture, and emergency response, their susceptibility to cyber attacks grows. A compromised drone can have its firmware altered or be sent unauthorized mission coordinates ("rogue missions").
+The **Drone Integrity & Mission Authentication Protocol** is a decentralized, blockchain-backed security layer designed to ensure the operational integrity of drone fleets. By leveraging the Stellar blockchain, this system records immutable cryptographic hashes of both drone firmware and mission commands.
 
-This project solves this critical vulnerability by introducing a **Zero-Trust Verification Layer**. Before a drone is allowed to execute a flight plan, its firmware signature and its mission commands are hashed and verified against records immutably stored on the Stellar blockchain. If the hashes do not match the blockchain's source of truth, the drone is grounded.
+**The Problem:** Commercial and enterprise drones are increasingly vulnerable to malicious firmware modifications, rogue mission injections, and unauthorized takeovers. Traditional centralized databases can be compromised, leaving fleets exposed.
+
+**The Solution:** This protocol establishes a zero-trust architecture. Before a drone can execute a flight, its current firmware hash and assigned mission parameters are verified against an immutable record on the blockchain. Any discrepancy instantly flags the drone as compromised, preventing unauthorized operations.
 
 ---
 
 ## 🛡️ Why This Project Matters
 
-This project focuses entirely on **cybersecurity, data integrity, and fleet management safety**. It is built to:
+As UAV technology proliferates in critical sectors (delivery, surveillance, agriculture, emergency response), the attack surface expands. This project matters because it shifts drone security from reactive to proactive:
 
-1. **Prevent Firmware Hijacking:** Ensure that the software running on the drone is the exact, authorized version released by the manufacturer or fleet manager.
-2. **Prevent Rogue Mission Injection:** Verify that the GPS coordinates and flight paths sent to the drone originated from an authorized command center.
-3. **Provide Immutable Auditability:** Maintain a cryptographically secure, permanent record of all operations for compliance and post-incident forensics.
-
-> **Note:** This is a defensive cybersecurity protocol. It does not involve, endorse, or relate to the weaponization of drones or military technology.
+- **Cybersecurity First:** Focuses entirely on hardening the communication and software layers of UAVs.
+- **Tamper-Evident:** Firmware modifications (even single-byte changes) are immediately detected.
+- **Non-Repudiation:** Mission commands are immutably logged, ensuring cryptographically verifiable audit trails of who authorized what flight.
+- **Supply Chain Security:** Protects the software supply chain of drones from the manufacturer to deployment.
 
 ---
 
 ## 🏗️ System Architecture Overview
 
-The system is composed of five distinct layers:
+Our architecture is separated into distinct, scalable layers:
 
-1. **Drone Layer (IoT):** The physical or simulated drone hardware. It computes a hash of its own firmware upon boot and sends it to the API for verification.
-2. **Frontend Layer (React):** A dashboard for fleet managers to register new firmware versions, authorize mission waypoints, and monitor the integrity status of active drones.
-3. **Backend API (Node.js/Express):** The central verification engine. It receives data from the drones, hashes mission parameters via cryptographic standard libraries, and communicates with the blockchain.
-4. **Blockchain Layer (Stellar):** The decentralized, immutable ledger. Firmware hashes and mission command hashes are recorded here as transactions or state data (future Smart Contracts).
-5. **Database Layer (MongoDB):** A fast, structured database to store off-chain metadata (e.g., drone names, human-readable mission logs, UI configurations) without congesting the blockchain.
+1. **🌐 Frontend Layer (React):** A responsive Dashboard for fleet operators to register drones, construct missions, and monitor integrity status in real-time.
+2. **⚙️ Backend API Layer (Node.js + Express):** The core logic engine that processes incoming drone data, generates cryptographic hashes, and interfaces with the blockchain.
+3. **🗄️ Database Layer (MongoDB):** Stores off-chain metadata (drone names, operator profiles, rich mission descriptions) linked to on-chain hashes.
+4. **⛓️ Blockchain Layer (Stellar):** The immutable ledger where the ultimate truth resides. Stores SHA-256 hashes of firmware and mission data as custom assets or memo fields.
+5. **🚁 Drone Layer (Simulated/Physical):** The edge device that computes its own firmware hash on boot and signs mission requests, communicating with the Backend API.
 
 ---
 
-## 💻 Technology Stack
+## �️ Technology Stack
 
-This application is built using a modern, scalable, and containerized architecture:
+This project is built using a modern, production-grade stack:
 
-- **Frontend:** React.js
+- **Frontend:** React.js, Tailwind CSS _(for rapid styling)_
 - **Backend:** Node.js, Express.js
-- **Database:** MongoDB (via Docker)
-- **Blockchain:** Stellar SDK (Horizon API & Soroban-ready scaffolding)
-- **Cryptography:** CryptoJS (SHA-256)
+- **Database:** MongoDB (via Mongoose)
+- **Blockchain:** Stellar SDK (Horizon API), Soroban-ready architecture for future smart contracts.
 - **Containerization:** Docker & Docker Compose
+- **Cryptography:** SHA-256 hashing, Ed25519 keypairs
 
 ---
 
@@ -75,91 +80,91 @@ This application is built using a modern, scalable, and containerized architectu
 
 ```text
 drone-integrity-protocol/
-├── docker-compose.yml       # Orchestrates MongoDB, Backend, and Frontend containers
-├── README.md                # Project documentation
-├── .gitignore               # Ignored files and directories
-├── backend/                 # Node.js + Express API
+├── backend/                  # Node.js API Server
+│   ├── src/
+│   │   ├── controllers/      # Route handlers
+│   │   ├── models/           # Mongoose schemas
+│   │   ├── routes/           # API endpoints
+│   │   ├── services/         # Stellar blockchain interaction
+│   │   └── utils/            # Hashing and crypto utilities
 │   ├── Dockerfile
-│   ├── package.json
-│   ├── .env                 # Backend environment variables
-│   └── src/
-│       ├── server.js        # Express entry point
-│       ├── routes/          # API endpoint definitions
-│       ├── controllers/     # Request handling logic
-│       ├── services/
-│       │   └── stellarService.js # Stellar blockchain interaction layer
-│       ├── utils/
-│       │   └── hash.js      # Cryptographic hashing utilities
-│       └── config/
-│           └── network.js   # Blockchain & DB network configuration
-├── frontend/                # React Dashboard Application
+│   └── package.json
+├── frontend/                 # React UI Web App
+│   ├── public/
+│   ├── src/
+│   │   ├── components/       # Reusable UI components
+│   │   ├── pages/            # View components (Dashboard)
+│   │   └── services/         # API client
 │   ├── Dockerfile
-│   ├── package.json
-│   └── src/                 # UI Components and Logic
-├── contracts/               # (Future) Soroban Smart Contracts
-├── firmware/                # Simulated drone firmware binaries (.bin)
-└── docs/                    # Additional documentation and roadmap
-    └── belt-progress.md
+│   └── package.json
+├── contracts/                # (Future) Soroban Smart Contracts
+├── docs/                     # Project documentation
+├── firmware/                 # Drone firmware mock files/simulators
+├── docker-compose.yml        # Orchestrates the full stack
+├── README.md                 # You are here
+└── .gitignore
 ```
 
 ---
 
-## 🔄 How Integrity Verification Works
+## � How Integrity Verification Works
 
-### 1. Firmware Registration (Authorized Party)
+### 1. 📝 Firmware Registration (Genesis)
 
-- The fleet manager uploads a new firmware binary through the React dashboard.
-- The Backend API hashes the executable using SHA-256.
-- The hash is submitted as a transaction to the Stellar blockchain, acting as the ultimate "Source of Truth."
+1. An authorized operator compiles the drone firmware.
+2. The Backend computes a SHA-256 hash of the `.bin` or `.hex` file.
+3. This hash is anchored to the Stellar blockchain via a transaction signed by an admin key.
 
-### 2. Drone Boot Verification (Pre-Flight)
+### 2. ⚡ Drone Boot Verification (Pre-flight)
 
-- Upon powering on, the drone calculates the SHA-256 hash of its local running firmware.
-- The drone sends this hash to the Backend API.
-- The API queries the Stellar blockchain. If the drone's hash matches the authorized hash on the blockchain, the drone is marked as **Verified**. If not, it is flagged as **Compromised**.
+1. Drone powers on and calculates its own firmware hash.
+2. Drone pings the Backend API with its ID and computed hash.
+3. Backend queries the Stellar ledger for the registered hash.
+4. If hashes match: `Status -> VERIFIED`. If mismatch: `Status -> COMPROMISED` (Flight locked out).
 
-### 3. Mission Authentication
+### 3. 🗺️ Mission Authentication
 
-- The fleet manager creates a mission (e.g., a set of GPS waypoints).
-- The mission data is hashed and recorded on Stellar.
-- Before the drone executes the mission, it verifies that the incoming mission hash matches the authorized hash on the blockchain.
+1. Operator creates a flight path (waypoints, altitude, speed).
+2. The mission payload is hashed.
+3. The mission hash is recorded on the Stellar blockchain.
+4. The drone receives the mission, calculates the hash, and verifies it against the blockchain record before executing movement.
 
 ---
 
 ## 🥋 Belt System Roadmap
 
-This project is structured around an incremental learning and feature roadmap:
+This project follows a progressive development roadmap:
 
-- **[White Belt] Scaffolding:** Initial MERN + Docker setup, Stellar SDK integration, and basic testnet connection. _(Completed)_
-- **[Yellow Belt] Core Verification:** Implementation of SHA-256 hashing, API endpoints for drone check-in, and Stellar transaction submission for firmware hashes.
-- **[Orange Belt] Mission Control:** Addition of the React Dashboard to visualize drone status, manage firmware versions, and create verified missions.
-- **[Green Belt] Database Integration:** Connecting MongoDB to store off-chain metadata, drone histories, and UI preferences.
-- **[Blue Belt] Smart Contracts:** Migrating basic transaction logging to Soroban Smart Contracts for advanced state management.
-- **[Brown/Black Belt] Advanced Security:** Implementing multisig mission authorization, ZK-proofs for privacy-preserving fleet data, and swarm-level consensus verification.
+- **⚪ White Belt (Foundation):** Basic MERN architecture, Docker setup, dummy hashing.
+- **🟡 Yellow Belt (Integration):** Connect backend to Stellar Testnet, register static hashes.
+- **🟢 Green Belt (Dynamic Auth):** Real-time firmware verification flows, basic React dashboard.
+- **🔵 Blue Belt (Mission Control):** Implement mission payload hashing and verification.
+- **🟤 Brown Belt (Security Hardening):** Implement JWT auth, secure key management, comprehensive logging.
+- **⚫ Black Belt (Production Ready):** Soroban smart contracts, multisig authorization, zero-knowledge proofs (ZKPs), full physical drone integration.
 
 ---
 
 ## 🐳 Docker Setup Instructions
 
-The easiest way to run the entire stack (Database, Backend, and Frontend) is using Docker Compose.
+The easiest way to run the entire stack is using Docker.
 
-1. **Ensure Docker is running** on your machine.
-2. Clone the repository and navigate to the root directory:
-   ```bash
-   cd drone-integrity-protocol
-   ```
-3. Build and start the containers:
-   ```bash
-   docker-compose up --build
-   ```
+**Prerequisites:** Docker and Docker Compose installed.
 
-**Services will be available at:**
+```bash
+# 1. Clone the repository
+git clone https://github.com/wolf1276/Drone-Integrity-Mission-Authentication-Protocol.git
+cd drone-integrity-protocol
 
-- **Frontend Dashboard:** `http://localhost:3000`
-- **Backend API:** `http://localhost:5001` _(Mapped to 5001 to prevent conflicts)_
-- **MongoDB:** `localhost:27017`
+# 2. Build and start the containers
+docker-compose up --build
 
-To stop the services, run:
+# 3. Access the services
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:5000
+# Database: mongodb://localhost:27017
+```
+
+To stop the services:
 
 ```bash
 docker-compose down
@@ -167,85 +172,90 @@ docker-compose down
 
 ---
 
-## ⚙️ Environment Variables Setup
+## 🔐 Environment Variables Setup
 
-For the backend to function correctly, ensure the `backend/.env` file is configured. An example configuration:
+Create a `.env` file in the `backend` directory:
 
 ```env
-# Backend Server Port (Internal Docker Port)
+# backend/.env
 PORT=5000
+MONGODB_URI=mongodb://mongo:27017/drone_integrity
+STELLAR_NETWORK=TESTNET
+STELLAR_HORIZON_URL=https://horizon-testnet.stellar.org
 
-# MongoDB Connection String (Resolves via Docker internal network)
-MONGO_URI=mongodb://mongo:27017/drone-integrity
+# WARNING: Use a funded testnet key for development. NEVER commit real private keys.
+STELLAR_ADMIN_SECRET=S_YOUR_TESTNET_SECRET_KEY_HERE
+STELLAR_ADMIN_PUBLIC=G_YOUR_TESTNET_PUBLIC_KEY_HERE
 
-# Stellar Network Configuration (TESTNET for development)
-STELLAR_NETWORK=testnet
-
-# Stellar Keypair (DO NOT commit real secret keys in production)
-# PUBLIC_KEY=G...
-# SECRET_KEY=S...
+JWT_SECRET=your_super_secret_jwt_key_here
 ```
 
 ---
 
 ## 💻 Development Setup (Without Docker)
 
-If you prefer to run the services locally without Docker for debugging:
+If you prefer to run services locally:
 
-1. **Start a local MongoDB instance** on port 27017.
-2. **Start the Backend:**
-   ```bash
-   cd backend
-   npm install
-   npm run dev
-   ```
-   _(Ensure you update the `MONGO_URI` in `.env` to `mongodb://localhost:27017/drone-integrity`)_
-3. **Start the Frontend:**
-   ```bash
-   cd frontend
-   npm install
-   npm start
-   ```
+**1. Database:** Ensure MongoDB is running locally on port `27017`.
+
+**2. Backend Setup:**
+
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+**3. Frontend Setup:**
+
+```bash
+cd frontend
+npm install
+npm start
+```
 
 ---
 
 ## 🚀 Future Roadmap
 
-- **Soroban Smart Contracts:** Transition from basic Stellar transactions to robust smart contracts for complex authorization logic.
-- **Multisig Authority:** Require multiple authorized personnel to sign off on high-risk missions (e.g., flight over populated areas).
-- **Swarm Validation:** Allow drones in a localized "swarm" to cryptographically verify each other's integrity before initiating cooperative maneuvers.
-- **Zero-Knowledge (ZK) Proofs:** Allow drones to prove they possess valid firmware or mission clearance without revealing the exact version numbers to potential interceptors.
+Our vision extends beyond basic hashing:
+
+- **📜 Soroban Smart Contracts:** Moving logic from the centralized Node.js backend directly to Stellar smart contracts for ultimate decentralization.
+- **✍️ Multisig Authority:** Requiring `M-of-N` operator signatures to authorize high-risk missions.
+- **🐝 Swarm Validation:** Drones cross-verifying each other's integrity hashes locally over mesh networks.
+- **🕵️‍♂️ Zero-Knowledge Proofs (ZKPs):** Proving a drone holds valid firmware without revealing the firmware payload itself.
 
 ---
 
 ## 🔒 Security Considerations
 
-- **Private Key Management:** In production, Stellar secret keys must never be stored in plain text or `.env` files. They should be managed via hardware security modules (HSMs) or enterprise secret managers (e.g., AWS Secrets Manager, HashiCorp Vault).
-- **Hashing Standards:** The protocol relies on standard, uncompromised cryptographic hashes (SHA-256).
-- **Blockchain Immutability:** By anchoring data to Stellar, the history of firmware updates and missions becomes impossible to retroactively alter, guaranteeing a reliable audit trail.
+- **Private Key Management:** The current architecture uses `.env` files for Stellar keys. In production, a secure Key Management System (AWS KMS, HashiCorp Vault) MUST be used.
+- **Cryptographic Hashing:** Uses industry-standard `SHA-256`. Ensure physical drone hardware is capable of performing these calculations securely on boot.
+- **Blockchain Immutability:** Once a firmware hash is registered on Stellar, it cannot be deleted. Rollbacks require registering a new authoritative hash.
+- **Network Vectors:** The communication link between the drone and the API must be secured via mutual TLS (mTLS).
 
 ---
 
 ## 🤝 Contribution Guidelines
 
-Contributions are welcome! Please follow these steps:
+We welcome contributions from the cybersecurity, blockchain, and drone developer communities!
 
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature/amazing-feature`).
-3. Commit your changes (`git commit -m 'Add amazing feature'`).
-4. Push to the branch (`git push origin feature/amazing-feature`).
-5. Open a Pull Request.
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-Ensure all code follows the existing style guidelines and includes appropriate testing where applicable.
+Please ensure all tests pass and your code adheres to the existing styling.
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
 ## ⚠️ Disclaimer
 
-**This software is a cybersecurity integrity protocol.** It is designed exclusively to protect drone systems from unauthorized data tampering, hacking, and software manipulation. This project does not contain, support, or endorse any features related to the weaponization of drones, military surveillance, or autonomous combat systems. Its sole purpose is data assurance, auditability, and civil aviation safety.
+**CRITICAL NOTICE:** This project is a **Cybersecurity and Integrity Protocol**. It is explicitly designed for defensive purposes—specifically to secure UAV communications, verify software integrity, and prevent unauthorized tampering or hijacking. **This is NOT a weapon system, nor is it designed to be integrated into or facilitate the operation of autonomous weapon platforms.** The creators disclaim any liability for the misuse of this protocol in offensive operations.
